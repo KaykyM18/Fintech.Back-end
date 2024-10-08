@@ -1,8 +1,9 @@
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         Login acesso = new Login();
 
@@ -56,10 +57,20 @@ public class Main {
 
         negativo.lancNegativo();
 
-
         try {
             Connection conexao = ConnectionFactory.getConnection();
             System.out.println("Conexão Realizada!");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        try {
+            Connection conexao = ConnectionFactory.getConnection();
+            Statement stm = conexao.createStatement();
+            stm.executeUpdate("INSERT INTO ENDERECO (CPF, CEP, LOGRADOURO, NUMERO, BAIRRO, PONTO_REFERENCIA) VALUES ('12345678910', '06112-010', 'AVENIDA HORACIO LAFER', 86, 'JARDIM DAS FLORES', NULL)");
+            System.out.println("Cliente Inserido!");
+            stm.close();
+            conexao.close();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
